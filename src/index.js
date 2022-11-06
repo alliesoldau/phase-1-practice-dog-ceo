@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 function renderImage(URL) {
-    console.log(URL)
     let imageContainer = document.getElementById("dog-image-container")
     let dogImage = document.createElement('img')
     dogImage.src = URL
@@ -24,11 +23,18 @@ function renderImage(URL) {
 }
 
 function renderBreed(breed) {
-    console.log(breed)
     let breedContainer = document.getElementById("dog-breeds")
     for (let dog of breed) {
             let dogBreed = document.createElement('li')
             dogBreed.innerHTML = dog
             breedContainer.appendChild(dogBreed)
-    }   
+    } 
+    let listElement = document.querySelectorAll('li')
+    for (let li of listElement) {
+        li.addEventListener('click', (e) => {
+            console.log(e.target.style.color)
+            e.target.style.color = 'pink'
+        })
+    } 
 }
+
