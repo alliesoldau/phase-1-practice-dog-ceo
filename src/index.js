@@ -1,5 +1,7 @@
 console.log('%c HI', 'color: firebrick')
 let breeds = []
+let lettersArray = []
+let optionsContainer = document.getElementById("breed-dropdown")
 
 document.addEventListener('DOMContentLoaded', () => {
     fetch('https://dog.ceo/api/breeds/image/random/4')
@@ -27,14 +29,43 @@ function renderBreed(breed) {
     for (let dog of breed) {
             let dogBreed = document.createElement('li')
             dogBreed.innerHTML = dog
+            dogBreed.id = dog
             breedContainer.appendChild(dogBreed)
     } 
     let listElement = document.querySelectorAll('li')
     for (let li of listElement) {
         li.addEventListener('click', (e) => {
-            console.log(e.target.style.color)
+            // console.log(e.target.style.color)
             e.target.style.color = 'pink'
         })
-    } 
+    }
+    for (let li of listElement) {
+        let firstLetter = li.innerText[0]
+        if (lettersArray.includes(firstLetter)) {
+        } else {
+            lettersArray.push(firstLetter)
+        }
+    }
+    lettersArray.forEach(letter => renderOptions(letter))
+
+    function renderOptions(letter) {
+        let optionElement = document.createElement("option")
+        optionElement.value = letter
+        optionElement.innerHTML = letter
+        optionsContainer.append(optionElement)
+    
+        let optionsList = document.querySelector('#breed-dropdown')
+        optionsList.addEventListener('change', (event) => changeBreedView(event))
+    }
 }
 
+function changeBreedView(event) {
+    let targetLetter = event.target.value
+    breeds.forEach(breed => {
+        if (breed[0] === targetLetter) {
+            document.getElementById(breed).style.display = "block"
+        } else {
+            document.getElementById(breed).style.display = "none"
+        }
+    })
+}
